@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MockCreditReport.Services;
 using MockCreditReport.Repositories;
 
-namespace MockCreditReport.Rest
+namespace MockCreditReport.Controllers
+
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MockCreditReport")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b78cb08a006f381e1b17d7a258220f4c865b686f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8915575554ad02ad80425861621e9165b84b0873")]
 [assembly: System.Reflection.AssemblyProductAttribute("MockCreditReport")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MockCreditReport")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

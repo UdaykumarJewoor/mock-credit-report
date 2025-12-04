@@ -73,7 +73,7 @@ namespace MockCreditReport.Repositories
         public async Task<Insured?> GetPrimaryInsuredAsync(int id)
         {
             var report = await _db.CreditReports
-                .Include(x => x.PrimaryInsured).ThenInclude(p => p.Address)
+                .Include(x => x.PrimaryInsured!).ThenInclude(p => p.Address)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return report?.PrimaryInsured;
