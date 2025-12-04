@@ -1,7 +1,7 @@
 using System;
-
 using Microsoft.AspNetCore.Mvc;
 using MockCreditReport.Services;
+using MockCreditReport.Repositories;
 
 namespace MockCreditReport.Rest
 {
@@ -10,40 +10,67 @@ namespace MockCreditReport.Rest
     public class CreditReportController : ControllerBase
     {
         private readonly MockCreditReportService _service;
+        private readonly CreditReportRepository _repo;
 
-        public CreditReportController(MockCreditReportService service)
+        public CreditReportController(
+            MockCreditReportService service,
+            CreditReportRepository repo)
         {
             _service = service;
+            _repo = repo;
         }
 
-        [HttpGet]
-        public IActionResult GetFullReport()
+
+
+        // POST - Generate & Save
+        [HttpPost]
+        public async Task<IActionResult> CreateRandomReport()
         {
-            return Ok(_service.GetMockCreditReport());
+            var generated = _service.GetMockCreditReport();
+            var saved = await _repo.SaveAsync(generated);
+
+            return Ok(saved);   // FULL JSON with ID
         }
 
-        [HttpGet("inquiries")]
-        public IActionResult GetInquiries()
+
+
+
+
+        // GET full report by ID
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetReportById(int id)
         {
-            return Ok(_service.GetMockCreditReport().Inquiries);
+            var report = await _repo.GetByIdAsync(id);
+            return report == null ? NotFound() : Ok(report);
         }
 
-        [HttpGet("trades")]
-        public IActionResult GetTrades()
+        // GET inquiries by report ID
+        [HttpGet("{id}/inquiries")]
+        public async Task<IActionResult> GetInquiries(int id)
         {
-            return Ok(_service.GetMockCreditReport().Trades);
+            return Ok(await _repo.GetInquiriesAsync(id));
         }
 
-        [HttpGet("addresses")]
-        public IActionResult GetAddresses()
+        // GET trades by report ID
+        [HttpGet("{id}/trades")]
+        public async Task<IActionResult> GetTrades(int id)
         {
-            return Ok(_service.GetMockCreditReport().Addresses);
+            return Ok(await _repo.GetTradesAsync(id));
         }
 
-        [HttpGet("primary-insured")]
-        public IActionResult GetPrimaryInsured()
+        // GET addresses by report ID
+        [HttpGet("{id}/addresses")]
+        public async Task<IActionResult> GetAddresses(int id)
         {
-            return Ok(_service.GetMockCreditReport().PrimaryInsured);
+            return Ok(await _repo.GetAddressesAsync(id));
+        }
+
+        // GET primary insured by report ID
+        [HttpGet("{id}/primary-insured")]
+        public async Task<IActionResult> GetPrimaryInsured(int id)
+        {
+            var result = await _repo.GetPrimaryInsuredAsync(id);
+            return result == null ? NotFound() : Ok(result);
         }
     }
 }
